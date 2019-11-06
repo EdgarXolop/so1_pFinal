@@ -6,7 +6,7 @@ import java.util.List;
 public class Stack {
     private final Integer MAX = 10;
     private final Integer MIN = 0;
-    private Integer cantidad = 0;
+    private List<Boolean> listado = new ArrayList<>();
 
     private boolean agregando = false;
     private boolean consumiendo = false;
@@ -26,36 +26,32 @@ public class Stack {
     }
 
     public void agregarSiguiente() throws InterruptedException {
-        while(cantidad == MAX || consumiendo){
-            System.out.println("AGREGAR: CANTIDAD " + cantidad);
+        while(getCantidad() == MAX || consumiendo){
+            System.out.println("AGREGAR: CANTIDAD " + getCantidad());
         }
         agregando = true;
-        cantidad ++; //seccion critica
+        listado.add(true); //seccion critica
         agregando = false;
 
-        System.out.println("Se agrego un nuevo elemento, " + cantidad);
+        System.out.println("Se agrego un nuevo elemento, " + getCantidad());
 
     }
 
     public void consumirSiguiente() throws InterruptedException {
 
-        while(cantidad == MIN || agregando){
-            System.out.println("CONSUMIDOR: CANTIDAD " + cantidad);
+        while(getCantidad() == MIN || agregando){
+            System.out.println("CONSUMIDOR: CANTIDAD " + getCantidad());
         }
 
-        System.out.println("Se consumió un elemento, " + cantidad);
+        System.out.println("Se consumió un elemento, " + getCantidad());
 
         consumiendo = true;
-        cantidad--; //seccion critica
+        listado.remove(0); //seccion critica
         consumiendo = false;
 
     }
 
     public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
+        return listado.size();
     }
 }
